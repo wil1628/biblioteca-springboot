@@ -1,0 +1,44 @@
+<div th:replace="fragments/header :: header"></div>
+
+<main class="max-h-100 flex items-center justify-center py-20 px-4">
+    <form th:action="@{/auth/registro}" th:object="${usuario}" method="post"
+        class="bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl p-10 w-full max-w-md space-y-6">
+
+        <h2 class="text-3xl font-bold text-center text-indigo-800">Crear una cuenta</h2>
+
+        <!-- Campo: Nombre de usuario -->
+        <div>
+            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Nombre de Usuario</label>
+            <input type="text" th:field="*{username}" placeholder="Tu nombre de usuario" required
+                class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900">
+        </div>
+
+        <!-- Campo: Contraseña -->
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+            <input type="password" th:field="*{passwordHash}" placeholder="Tu contraseña" required
+                class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900">
+        </div>
+
+        <!-- Campo: Correo Electrónico -->
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+            <input type="email" th:field="*{email}" placeholder="ejemplo@correo.com" required
+                class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-900">
+        </div>
+
+        <!-- Botón de envío -->
+        <button type="submit"
+            class="w-full bg-lime-700 hover:bg-lime-900 text-white font-semibold py-2 px-4 rounded-full transition duration-300 shadow-md hover:shadow-lg">
+            Registrarse
+        </button>
+
+        <!-- Enlace a login -->
+        <p class="text-center text-sm text-gray-600">
+            ¿Ya tienes una cuenta? 
+            <a href="/auth/login" class="text-indigo-700 font-medium hover:underline">Iniciar sesión</a>
+        </p>
+    </form>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>

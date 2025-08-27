@@ -1,0 +1,53 @@
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Barra de navegación del dashboard -->
+<nav class="bg-gray-100 border-b border-gray-300 mb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex space-x-4">
+                <a href="/admin/dashboard" class="text-gray-700 hover:text-blue-600 font-medium">Dashboard</a>
+                <a href="/admin/usuarios/usuarios" class="text-gray-700 hover:text-blue-600 font-medium">👥 Usuarios</a>
+                <a href="/admin/libros/libros" class="text-gray-700 hover:text-blue-600 font-medium">📚 Libros</a>
+                <a href="/admin/categorias/categorias" class="text-gray-700 hover:text-blue-600 font-medium">🏷️ Categorías</a>
+                <a href="/admin/autores/autores" class="text-gray-700 hover:text-blue-600 font-medium">✍️ Autores</a>
+                <a href="/admin/ejemplares/ejemplares" class="text-gray-700 hover:text-blue-600 font-medium">📖 Ejemplares</a>    
+                <a href="/admin/prestamos/prestamos" class="text-gray-700 hover:text-blue-600 font-medium">📄 Préstamos</a>            
+            </div>
+            <div>
+                <a href="/" class="text-gray-500 hover:text-red-500 font-medium">← Volver al sitio</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<body>
+
+    <main class="max-w-xl mx-auto py-12 px-6">
+        <h2 class="text-3xl font-bold text-center mb-8">Registrar Nuevo Autor</h2>
+
+        <form th:action="@{/admin/autores/autores/guardar}" th:object="${autor}" method="post"
+            class="bg-white shadow-md rounded-lg p-6 space-y-6">
+            <div>
+                <label class="text-black font-semibold mb-1">Nombre Completo:</label>
+                <input type="text" th:field="*{nombre}" required
+                    class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+            </div>
+
+            <div>
+                <label class="text-black font-semibold mb-1">País de Origen:</label>
+                <input type="text" th:field="*{pais}" required
+                    class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+            </div>
+
+            <div class="flex justify-end space-x-4">
+                <a href="/admin/autores/autores"
+                    class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-full">Cancelar</a>
+                <button type="submit"
+                    class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-full">
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </main>
+</body>
+<div th:replace="fragments/footer :: footer"></div>

@@ -1,0 +1,75 @@
+<!-- fragmento del encabezado -->
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Barra de navegación del dashboard -->
+<nav class="bg-gray-100 border-b border-gray-300 mb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex space-x-4">
+                <a href="/admin/dashboard" class="text-gray-700 hover:text-blue-600 font-medium">🏠 Dashboard</a>
+                <a href="/admin/usuarios/usuarios" class="text-gray-700 hover:text-blue-600 font-medium">👥 Usuarios</a>
+                <a href="/admin/libros/libros" class="text-gray-700 hover:text-blue-600 font-medium">📚 Libros</a>
+                <a href="/admin/categorias/categorias" class="text-gray-700 hover:text-blue-600 font-medium">🏷️
+                    Categorías</a>
+                <a href="/admin/autores/autores" class="text-blue-700 font-semibold border-b-2 border-blue-700">✍️
+                    Autores</a>
+                <a href="/admin/ejemplares/ejemplares" class="text-gray-700 hover:text-blue-600 font-medium">📖
+                    Ejemplares</a>
+                <a href="/admin/prestamos/prestamos" class="text-gray-700 hover:text-blue-600 font-medium">📄
+                    Préstamos</a>
+            </div>
+            <div>
+                <a href="/" class="text-gray-500 hover:text-red-500 font-medium">← Volver al sitio</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-6xl mx-auto py-10 px-6">
+    <!-- Encabezado y botón -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-white">✍️ Autores Registrados</h1>
+        <a href="/admin/autores/autores/nuevo"
+            class="bg-emerald-600 hover:bg-emerald-800 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300">
+            ➕ Agregar Autor
+        </a>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div th:if="${error}" class="bg-red-100 text-red-700 px-4 py-3 rounded mb-4">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- Tabla de autores -->
+    <div class="bg-white shadow-lg rounded-xl overflow-x-auto">
+        <table class="min-w-full table-auto text-center">
+            <thead class="bg-gradient-to-r from-slate-500 via-stone-500 to-blue-900 text-white">
+                <tr>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Nombre</th>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">País</th>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-800 font-medium">
+                <tr th:each="autor : ${listaAutores}" class="border-b hover:bg-gray-50 transition duration-200">
+                    <td class="px-4 py-3" th:text="${autor.nombre}">Nombre</td>
+                    <td class="px-4 py-3" th:text="${autor.pais}">País</td>
+                    <td class="px-4 py-3 space-x-2">
+                        <a th:href="@{'/admin/autores/autores/editar/' + ${autor.id}}"
+                            class="bg-yellow-500 hover:bg-yellow-700 text-white py-2 px-4 rounded-full shadow-md transition duration-300">
+                            Editar
+                        </a>
+                        <a th:href="@{'/admin/autores/autores/eliminar/' + ${autor.id}}"
+                            class="bg-red-600 hover:bg-red-800 text-white py-2 px-4 rounded-full shadow-md transition duration-300"
+                            onclick="return confirm('¿Estás seguro de eliminar este autor?')">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- fragmento del pie de página -->
+<div th:replace="fragments/footer :: footer"></div>

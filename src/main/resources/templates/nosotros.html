@@ -1,0 +1,61 @@
+<div th:replace="fragments/header :: header"></div>
+
+    <!-- Contenido principal -->
+    <main class="max-w-5xl mx-auto px-4 py-12 text-center">
+
+        <h2 class="text-3xl font-semibold mb-6">Sobre Nosotros</h2>
+
+        <p class="text-lg mb-6">
+            La Biblioteca Central nace con el compromiso de facilitar el acceso al conocimiento, la lectura y el
+            aprendizaje continuo para toda la comunidad universitaria y el público en general.
+        </p>
+
+        <img src="/image/R.jpeg" alt="Sala de lectura" class="rounded-lg shadow mx-auto w-full md:w-2/3 mb-6">
+
+        <!-- Misión -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold mb-2">Misión</h3>
+            <p>Brindar servicios bibliotecarios modernos, accesibles y eficientes que apoyen la formación académica, la
+                investigación y el desarrollo cultural.</p>
+        </section>
+
+        <!-- Visión -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-bold mb-2">Visión</h3>
+            <p>Ser reconocida como una biblioteca líder en innovación, inclusión digital y compromiso con la excelencia
+                educativa.</p>
+        </section>
+
+        <!-- Valores -->
+        <section class="mb-10 bg-white/10 rounded-xl shadow-lg p-8">
+            <h3 class="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
+                <span>🌟</span> Nuestros Valores
+            </h3>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left mx-auto max-w-2xl">
+                <li class="flex items-center gap-3 bg-white/20 rounded-lg px-4 py-3 shadow">
+                    <span class="text-2xl">📖</span>
+                    <span class="font-medium">Fomento a la lectura</span>
+                </li>
+                <li class="flex items-center gap-3 bg-white/20 rounded-lg px-4 py-3 shadow">
+                    <span class="text-2xl">🤝</span>
+                    <span class="font-medium">Respeto y diversidad</span>
+                </li>
+                <li class="flex items-center gap-3 bg-white/20 rounded-lg px-4 py-3 shadow">
+                    <span class="text-2xl">💡</span>
+                    <span class="font-medium">Innovación constante</span>
+                </li>
+                <li class="flex items-center gap-3 bg-white/20 rounded-lg px-4 py-3 shadow">
+                    <span class="text-2xl">🔒</span>
+                    <span class="font-medium">Acceso equitativo a la información</span>
+                </li>
+                <li class="flex items-center gap-3 bg-white/20 rounded-lg px-4 py-3 shadow col-span-full sm:col-span-2">
+                    <span class="text-2xl">🎓</span>
+                    <span class="font-medium">Apoyo al aprendizaje permanente</span>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+<!-- fragmento de pie de footer -->
+<div th:replace="fragments/footer :: footer"></div>

@@ -1,0 +1,71 @@
+<!-- fragments/header -->
+<div th:replace="fragments/header :: header"></div>
+
+<main class="max-w-6xl mx-auto py-8 px-4">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-6">📚 Catálogo de Libros</h1>
+
+        <!-- Mensaje de éxito al alquilar -->
+        <div th:if="${alquilado}"
+            class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center">
+            Libro alquilado con éxito
+        </div>
+
+        <!-- Mensaje de error -->
+        <div th:if="${error}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center">
+            <span th:text="${error}"></span>
+        </div>
+
+        <!-- Grid de libros -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div th:each="libro : ${libros}" class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+
+                <h2 class="text-xl font-semibold text-blue-700" th:text="${libro.titulo}">Título</h2>
+
+                <p class="text-sm text-gray-600 mt-1">
+                    <strong>Autor(es):</strong>
+                    <span th:each="autor : ${libro.autores}" th:text="${autor.nombre}" class="mr-1"></span>
+                </p>
+
+                <p class="text-sm text-gray-600">
+                    <strong>Categoría:</strong>
+                    <span th:text="${libro.categoria.nombre}">Categoría</span>
+                </p>
+
+                <p class="text-sm text-gray-600">
+                    <strong>Año:</strong>
+                    <span th:text="${libro.anioPublicacion}">2025</span>
+                </p>
+
+                <p class="text-sm text-gray-600">
+                    <strong>ISBN:</strong>
+                    <span th:text="${libro.isbn}">123456789</span>
+                </p>
+
+                <p class="text-sm text-gray-600">
+                    <strong>Unidades disponibles:</strong>
+                    <span th:text="${libro.unidades}">0</span>
+                </p>
+
+                <div class="mt-4">
+                    <!-- Si está autenticado, mostrar botón de alquilar -->
+                    <div th:if="${#authorization.expr('isAuthenticated()')}">
+                        <a th:href="@{'/catalogo/alquilar/' + ${libro.id}}"
+                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                            Alquilar
+                        </a>
+                    </div>
+
+                    <!-- Si NO está autenticado, mostrar mensaje -->
+                    <div th:if="${#authorization.expr('!isAuthenticated()')}"
+                        class="text-red-600 text-sm font-medium mt-2">
+                        Necesita iniciar sesión para alquilar este libro.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</main>
+
+<!-- fragments/footer -->
+<div th:replace="fragments/footer :: footer"></div>

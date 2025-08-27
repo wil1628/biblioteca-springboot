@@ -1,0 +1,105 @@
+<div th:fragment="header">
+    <!DOCTYPE html>
+    <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>Biblioteca Central</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body class="bg-slate-700 text-white font-sans">
+
+        <header class="bg-gradient-to-r from-indigo-700 via-sky-700 to-emerald-800 shadow">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+                <h1 class="text-2xl font-bold">📚 Biblioteca Central</h1>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-4 items-center">
+                    <a href="/" class="px-3 py-1 rounded-full hover:bg-white hover:text-gray-700 transition">Inicio</a>
+                    <a href="/nosotros"
+                        class="px-3 py-1 rounded-full hover:bg-white hover:text-gray-700 transition">Nosotros</a>
+                    <a href="/catalogo"
+                        class="px-3 py-1 rounded-full hover:bg-white hover:text-gray-700 transition">Catálogo</a>
+                    <a href="/contacto"
+                        class="px-3 py-1 rounded-full hover:bg-white hover:text-gray-700 transition">Contacto</a>
+
+                    <a sec:authorize="hasRole('USER')" href="/usuario/perfil"
+                        class="px-3 py-1 rounded-full hover:bg-white hover:text-gray-700 transition">
+                        Mi Perfil
+                    </a>
+
+
+                    <!-- Si NO está logueado -->
+                    <div sec:authorize="isAnonymous()" class="flex space-x-2">
+                        <a href="/auth/login"
+                            class="bg-indigo-600 hover:bg-indigo-800 text-white font-medium py-2 px-4 rounded-full transition">Login</a>
+                        <a href="/auth/registro"
+                            class="bg-indigo-600 hover:bg-indigo-800 text-white font-medium py-2 px-4 rounded-full transition">Registrarse</a>
+                    </div>
+
+                    <!-- Si está logueado -->
+                    <div sec:authorize="isAuthenticated()">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit"
+                                class="bg-red-600 hover:bg-red-800 text-white font-medium py-2 px-4 rounded-full transition">Salir</button>
+                        </form>
+                    </div>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="menu-btn" class="text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Nav -->
+            <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
+                <a href="/" class="block px-4 py-2 rounded hover:bg-white hover:text-gray-700 transition">Inicio</a>
+                <a href="/nosotros"
+                    class="block px-4 py-2 rounded hover:bg-white hover:text-gray-700 transition">Nosotros</a>
+                <a href="/catalogo"
+                    class="block px-4 py-2 rounded hover:bg-white hover:text-gray-700 transition">Catálogo</a>
+                <a href="/contacto"
+                    class="block px-4 py-2 rounded hover:bg-white hover:text-gray-700 transition">Contacto</a>
+
+                <a sec:authorize="hasAnyRole('USER','ADMIN')" href="/prestamos/mis-libros"
+                    class="block px-4 py-2 rounded hover:bg-white hover:text-gray-700 transition">Mis Préstamos</a>
+                <a sec:authorize="hasRole('USER')" href="/usuario/perfil"
+                    class="block px-4 py-2 rounded hover:bg-white hover:text-gray-700 transition">Mi Perfil</a>
+
+
+                <div sec:authorize="isAnonymous()" class="space-y-2">
+                    <a href="/auth/login"
+                        class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-800 rounded text-white text-center">Login</a>
+                    <a href="/auth/registro"
+                        class="block px-4 py-2 bg-indigo-600 hover:bg-indigo-800 rounded text-white text-center">Registrarse</a>
+                </div>
+
+                <div sec:authorize="isAuthenticated()" class="space-y-2">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit"
+                            class="w-full bg-red-600 hover:bg-red-800 rounded text-white py-2">Salir</button>
+                    </form>
+                </div>
+            </div>
+        </header>
+
+        <script>
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        </script>
+
+    </body>
+
+    </html>
+</div>

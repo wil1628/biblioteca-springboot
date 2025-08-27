@@ -1,0 +1,22 @@
+<h2>Detalle del Libro</h2>
+<p><strong>Título:</strong> [[${libro.titulo}]]</p>
+<p><strong>Autor:</strong> [[${libro.autor.nombre}]]</p>
+<p><strong>ISBN:</strong> [[${libro.isbn}]]</p>
+
+<h3>Ejemplares</h3>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    <tr th:each="ejemplar : ${ejemplares}">
+        <td th:text="${ejemplar.id}"></td>
+        <td th:text="${ejemplar.estado}"></td>
+        <td>
+            <a th:href="@{'/admin/ejemplares/editar/' + ${ejemplar.id}}">Editar</a>
+        </td>
+    </tr>
+</table>
+
+<a th:href="@{'/admin/ejemplares/nuevo?libroId=' + ${libro.id}}">➕ Agregar Ejemplar</a>

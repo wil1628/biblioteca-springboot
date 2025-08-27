@@ -1,0 +1,92 @@
+<!-- fragmento del encabezado -->
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Barra de navegación del dashboard -->
+<nav class="bg-gray-100 border-b border-gray-300 mb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex space-x-4">
+                <a href="/admin/dashboard" class="text-gray-700 hover:text-blue-600 font-medium">🏠 Dashboard</a>
+                <a href="/admin/usuarios/usuarios" class="text-gray-700 hover:text-blue-600 font-medium">👥 Usuarios</a>
+                <a href="/admin/libros/libros" class="text-blue-700 font-semibold border-b-2 border-blue-700">📚
+                    Libros</a>
+                <a href="/admin/categorias/categorias" class="text-gray-700 hover:text-blue-600 font-medium">🏷️
+                    Categorías</a>
+                <a href="/admin/autores/autores" class="text-gray-700 hover:text-blue-600 font-medium">✍️ Autores</a>
+                <a href="/admin/ejemplares/ejemplares" class="text-gray-700 hover:text-blue-600 font-medium">📖
+                    Ejemplares</a>
+                <a href="/admin/prestamos/prestamos" class="text-gray-700 hover:text-blue-600 font-medium">📄
+                    Préstamos</a>
+            </div>
+            <div>
+                <a href="/" class="text-gray-500 hover:text-red-500 font-medium">← Volver al sitio</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido principal -->
+<main class="max-w-7xl mx-auto px-6 py-10">
+    <!-- Encabezado de la página y botón para agregar un nuevo libro -->
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-4xl font-bold text-white">📚 Catálogo de Libros</h2>
+        <a th:href="@{/admin/libros/libros/nuevo}"
+            class="bg-emerald-600 hover:bg-emerald-800 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300">
+            ➕ <span class="ml-2">Agregar Libro</span>
+        </a>
+    </div>
+
+    <!-- Tabla de libros -->
+    <div class="overflow-x-auto bg-white shadow-lg rounded-xl">
+        <table class="min-w-full divide-y divide-gray-200 text-center">
+            <!-- Encabezados de la tabla -->
+            <thead class="bg-gradient-to-r from-slate-500 via-stone-500 to-blue-900 text-white">
+                <tr>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Título</th>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Autores</th>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">ISBN</th>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Año</th>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Categoría</th>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Unidades</th>
+                    <th class="px-6 py-3 text-sm font-semibold uppercase tracking-wider">Acciones</th>
+                </tr>
+            </thead>
+            <!-- Cuerpo de la tabla -->
+            <tbody class="divide-y divide-gray-200 text-gray-800" th:each="libro : ${listaLibros}">
+                <tr class="hover:bg-gray-50 transition duration-200">
+                    <!-- Título del libro -->
+                    <td class="px-6 py-4 font-medium" th:text="${libro.titulo}">Título</td>
+                    <!-- Autores -->
+                    <td class="px-6 py-4">
+                        <span th:each="autor : ${libro.autores}" th:text="${autor.nombre + ' '}" />
+                    </td>
+                    <!-- ISBN -->
+                    <td class="px-6 py-4" th:text="${libro.isbn}">ISBN</td>
+                    <!-- Año -->
+                    <td class="px-6 py-4" th:text="${libro.anioPublicacion}">Año</td>
+                    <!-- Categoría -->
+                    <td class="px-6 py-4" th:text="${libro.categoria.nombre}">Categoría</td>
+                    <!-- Unidades -->
+                    <td class="px-6 py-4 font-semibold text-blue-700" th:text="${libro.unidades}">Unidades</td>
+                    <!-- Acciones -->
+                    <td class="px-6 py-4">
+                        <div class="flex space-x-2 justify-center">
+                            <a th:href="@{'/admin/libros/libros/editar/' + ${libro.id}}"
+                                class="bg-yellow-500 hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300">
+                                Editar
+                            </a>
+                            <a th:href="@{'/admin/libros/libros/eliminar/' + ${libro.id}}"
+                                class="bg-red-600 hover:bg-red-800 text-white font-medium py-2 px-4 rounded-full shadow-md transition duration-300"
+                                onclick="return confirm('¿Estás seguro de eliminar este libro?')">
+                                Eliminar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- fragmento del pie de página -->
+<div th:replace="fragments/footer :: footer"></div>

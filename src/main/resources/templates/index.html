@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Biblioteca Central</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-700 text-white font-sans">
+
+    <!-- Encabezado -->
+    <div th:replace="fragments/header :: header"></div>
+
+    <!-- Contenido principal -->
+    <main class="max-w-5xl mx-auto mt-10 px-4 text-center">
+
+        <!-- Bienvenida -->
+        <section class="max-w-6xl mx-auto px-4 py-12 text-center">
+            <h2 class="text-3xl font-semibold mb-4">Bienvenido a la Biblioteca Central</h2>
+            <p class="mb-6 text-lg">
+                Gestiona tus libros, conoce a nuestros autores y accede a todos los recursos desde un solo lugar.
+            </p>
+            <img src="/image/650_1200.jpg" alt="Imagen de biblioteca"
+                class="rounded-lg shadow mx-auto w-full md:w-2/3 mb-6">
+            <a href="/catalogo"
+                class="bg-teal-700 hover:bg-teal-900 text-white font-medium py-3 px-6 rounded-full transition duration-300 shadow-lg hover:shadow-xl">
+                Ver Catálogo
+            </a>
+        </section>
+
+        <!-- Beneficios -->
+        <section class="bg-slate-700 py-12">
+            <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="p-6 border rounded shadow">
+                    <h3 class="text-xl font-semibold mb-2">Acceso Gratuito</h3>
+                    <p>Consultá libros físicos y digitales sin costo. Registrate para comenzar.</p>
+                </div>
+                <div class="p-6 border rounded shadow">
+                    <h3 class="text-xl font-semibold mb-2">Préstamos Rápidos</h3>
+                    <p>Solicitá y devolvé libros fácilmente desde tu cuenta en línea.</p>
+                </div>
+                <div class="p-6 border rounded shadow">
+                    <h3 class="text-xl font-semibold mb-2">Acceso Seguro</h3>
+                    <p>Acceso personalizado para usuarios registrados, para mayor seguridad y control.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Horario y ubicación -->
+        <section class="max-w-5xl mx-auto py-12 px-4 text-center">
+            <h3 class="text-2xl font-bold mb-4">📅 Horario de Atención</h3>
+            <p class="mb-2">Lunes a Viernes: 8:00 a.m. - 6:00 p.m.</p>
+            <p class="mb-2">Sábados: 9:00 a.m. - 1:00 p.m.</p>
+            <p class="mb-2">Domingos y feriados: Cerrado</p>
+            <p class="mb-2">📍 Dirección: Avenida Central, San José, Costa Rica</p>
+        </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <div th:replace="fragments/footer :: footer"></div>
+
+</body>
+
+</html>

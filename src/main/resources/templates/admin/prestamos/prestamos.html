@@ -1,0 +1,116 @@
+<!-- Fragmento del encabezado -->
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Barra de navegación del dashboard -->
+<nav class="bg-gray-100 border-b border-gray-300 mb-6 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex space-x-6">
+                <a href="/admin/dashboard" class="text-gray-700 hover:text-blue-600 font-medium">🏠 Dashboard</a>
+                <a href="/admin/usuarios/usuarios" class="text-gray-700 hover:text-blue-600 font-medium">👥 Usuarios</a>
+                <a href="/admin/libros/libros" class="text-gray-700 hover:text-blue-600 font-medium">📚 Libros</a>
+                <a href="/admin/categorias/categorias" class="text-gray-700 hover:text-blue-600 font-medium">🏷️
+                    Categorías</a>
+                <a href="/admin/autores/autores" class="text-gray-700 hover:text-blue-600 font-medium">✍️ Autores</a>
+                <a href="/admin/ejemplares/ejemplares" class="text-gray-700 hover:text-blue-600 font-medium">📖
+                    Ejemplares</a>
+                <a href="/admin/prestamos/prestamos" class="text-gray-700 hover:text-blue-600 font-medium">📄
+                    Préstamos</a>
+            </div>
+            <div>
+                <a href="/" class="text-gray-500 hover:text-red-500 font-medium">← Volver al sitio</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido principal -->
+<main class="max-w-7xl mx-auto px-6 py-10">
+
+    <!-- Encabezado -->
+    <div class="flex justify-between items-center mb-10">
+        <h2 class="text-4xl font-extrabold text-white">📄 Gestión de Préstamos</h2>
+        <a th:href="@{/admin/prestamos/prestamos/nuevo}"
+            class="bg-emerald-600 hover:bg-emerald-800 text-white py-2 px-5 rounded-full shadow-md font-semibold transition duration-300">
+            ➕ Nuevo Préstamo
+        </a>
+    </div>
+
+    <!-- Mensajes -->
+    <div th:if="${exito}" class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 rounded mb-6 shadow-sm"
+        th:text="${exito}"></div>
+    <div th:if="${error}" class="bg-red-100 border-l-4 border-red-500 text-red-800 p-3 rounded mb-6 shadow-sm"
+        th:text="${error}"></div>
+
+    <!-- Tabla -->
+    <div class="overflow-x-auto bg-white shadow-xl rounded-2xl border border-gray-200">
+        <table class="w-full text-sm text-left border-collapse">
+
+            <!-- Encabezado -->
+            <thead class="bg-gradient-to-r from-slate-600 via-stone-600 to-blue-900 text-white">
+                <tr>
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wide">Usuario</th>
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wide">Ejemplar</th>
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wide">Fecha Préstamo</th>
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wide">Vencimiento</th>
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wide">Devolución</th>
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wide">Estado</th>
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wide">Multa</th>
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-center">Acciones</th>
+                </tr>
+            </thead>
+
+            <!-- Filas -->
+            <tbody th:each="prestamo : ${listaPrestamos}" class="divide-y divide-gray-200 bg-white">
+                <tr class="hover:bg-gray-50 transition duration-150">
+                    <td class="px-6 py-4 font-medium text-gray-800" th:text="${prestamo.usuario.username}">Usuario</td>
+                    <td class="px-6 py-4 text-gray-600"
+                        th:text="${prestamo.ejemplar.codigoEjemplar + ' - ' + prestamo.ejemplar.libro.titulo}">
+                        Ejemplar</td>
+                    <td class="px-6 py-4 text-gray-600"
+                        th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(prestamo.fechaPrestamo)}">
+                        Fecha</td>
+                    <td class="px-6 py-4 text-gray-600"
+                        th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(prestamo.fechaVencimiento)}">
+                        Vencimiento</td>
+                    <td class="px-6 py-4 text-gray-600"
+                        th:text="${prestamo.fechaDevolucion != null ? T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(prestamo.fechaDevolucion) : '—'}">
+                        Devolución</td>
+                    <td class="px-6 py-4 font-semibold" th:text="${prestamo.estado}"
+                        th:classappend="${prestamo.estado == 'ACTIVO'} ? 'text-blue-700' : 'text-green-600'">
+                        Estado</td>
+                    <td class="px-6 py-4 font-semibold text-red-600"
+                        th:text="${prestamo.multaGenerada != null ? '₡' + prestamo.multaGenerada : '₡0.00'}">₡0.00
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <div class="flex justify-center space-x-2">
+                            <!-- Botón Devolver -->
+                            <form th:action="@{'/admin/prestamos/prestamos/devolver/' + ${prestamo.id}}" method="post"
+                                th:if="${prestamo.estado == 'ACTIVO'}">
+                                <button type="submit"
+                                    class="bg-blue-600 hover:bg-blue-800 text-white px-3 py-1 rounded-full shadow-sm text-sm font-medium transition duration-300">
+                                    Devolver
+                                </button>
+                            </form>
+                            <!-- Botón Limpiar Multa -->
+                            <form th:action="@{'/admin/prestamos/prestamos/limpiar-multa/' + ${prestamo.id}}"
+                                method="post" th:if="${prestamo.multaGenerada != null && prestamo.multaGenerada > 0}">
+                                <button type="submit"
+                                    class="bg-yellow-600 hover:bg-yellow-800 text-white px-3 py-1 rounded-full shadow-sm text-sm font-medium transition duration-300">
+                                    Limpiar
+                                </button>
+                            </form>
+                            <!-- Botón Eliminar -->
+                            <a th:href="@{'/admin/prestamos/prestamos/eliminar/' + ${prestamo.id}}"
+                                class="bg-red-600 hover:bg-red-800 text-white py-1.5 px-4 rounded-full shadow-sm text-sm font-medium transition duration-300"
+                                onclick="return confirm('¿Estás seguro de eliminar este préstamo?')">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Fragmento del pie de página -->
+<div th:replace="fragments/footer :: footer"></div>

@@ -1,0 +1,134 @@
+<!-- fragmento de encabezado -->
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Barra de navegación del dashboard -->
+<nav class="bg-gray-100 border-b border-gray-300 mb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex space-x-4">
+                <a href="/admin/dashboard" class="text-gray-700 hover:text-blue-600 font-medium">Dashboard</a>
+                <a href="/admin/usuarios/usuarios" class="text-gray-700 hover:text-blue-600 font-medium">👥 Usuarios</a>
+                <a href="/admin/libros/libros" class="text-gray-700 hover:text-blue-600 font-medium">📚 Libros</a>
+                <a href="/admin/categorias/categorias" class="text-gray-700 hover:text-blue-600 font-medium">🏷️ Categorías</a>
+                <a href="/admin/autores/autores" class="text-gray-700 hover:text-blue-600 font-medium">✍️ Autores</a>
+                <a href="/admin/ejemplares/ejemplares" class="text-gray-700 hover:text-blue-600 font-medium">📖 Ejemplares</a>    
+                <a href="/admin/prestamos/prestamos" class="text-gray-700 hover:text-blue-600 font-medium">📄 Préstamos</a>            
+            </div>
+            <div>
+                <a href="/" class="text-gray-500 hover:text-red-500 font-medium">← Volver al sitio</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido principal -->
+
+<main class="max-w-7xl mx-auto px-6 py-10">
+
+    <div class="flex justify-center items-center mb-8">
+        <h2 class="text-4xl font-bold text-white">Editar Libro</h2>
+    </div>
+
+    <!--Formulario para editar un libro-->
+
+    <form th:action="@{/admin/libros/libros/actualizar/{id}(id=${libro.id})}" th:object="${libro}" method="post"
+        class="space-y-6 bg-white p-8 rounded-lg shadow-lg text-gray-800">
+
+        <!-- Campo para el título del libro -->
+        <div>
+            <label class="block font-medium mb-1">Título:</label>
+            <input type="text" th:field="*{titulo}" required
+                class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+        <!-- Campos para ISBN y año de publicación -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block font-medium mb-1">ISBN:</label>
+                <input type="text" th:field="*{isbn}" required
+                    class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Año de Publicación:</label>
+                <input type="number" th:field="*{anioPublicacion}" min="1500" max="2100" required
+                    class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+            </div>
+        </div>
+
+        <!-- Selector de categoría -->
+        <div>
+            <label class="block font-medium mb-1">Categoría:</label>
+            <select th:field="*{categoria}" required
+                class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-indigo-500">
+                <option value="">-- Selecciona una categoría --</option>
+                <!-- Opciones generadas dinámicamente para cada categoría -->
+                <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Selector múltiple de autores -->
+        <div>
+            <label class="block font-medium mb-1">Autores:</label>
+            <select th:field="*{autores}" required
+                class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-indigo-500">
+                <option value="">-- Selecciona un autor --</option>
+                <option th:each="autor : ${autores}" th:value="${autor.id}" th:text="${autor.nombre}"></option>
+            </select>
+        </div>
+        <!-- Agregar autor -->
+        <button type="button" onclick="document.getElementById('modalAutor').classList.remove('hidden')"
+            class="mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded shadow">
+            + Agregar nuevo autor
+        </button>
+
+        <!-- Campo para unidades disponibles -->
+        <div>
+            <label class="block font-medium mb-1">Unidades disponibles:</label>
+            <input type="number" th:field="*{unidades}" min="1" required
+                class="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+        <div class="flex justify-end gap-4 pt-4">
+            <a th:href="@{/admin/libros/libros}"
+                class="bg-red-600 hover:bg-red-800 text-white font-medium py-2 px-4 rounded-full transition duration-300">Cancelar</a>
+            <button type="submit"
+                class="bg-emerald-600 hover:bg-emerald-800 text-white font-medium py-2 px-4 rounded-full transition duration-300">
+                Guardar
+            </button>
+        </div>
+
+    </form>
+    <!--Modal para crear autor-->
+    <div id="modalAutor" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded shadow-md w-96 relative">
+            <button onclick="document.getElementById('modalAutor').classList.add('hidden')"
+                class="absolute top-2 right-2 text-gray-500 hover:text-black">&times;</button>
+
+            <h3 class="text-lg font-bold mb-4 text-black">Nuevo Autor</h3>
+            <form th:action="@{/admin/libros/libros/autor/nuevo}" method="post">
+                <div class="mb-4">
+                    <label class="block font-medium text-black">Nombre:</label>
+                    <input type="text" name="nombre" required
+                        class="text-black w-full border rounded px-3 py-2 mt-1 focus:ring-2 focus:ring-indigo-500" />
+                </div>
+                <div class="mb-4">
+                    <label class="block font-medium text-black">País:</label>
+                    <input type="text" name="pais" required
+                        class="text-black w-full border rounded px-3 py-2 mt-1 focus:ring-2 focus:ring-indigo-500" />
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="bg-emerald-600 hover:bg-emerald-800 text-white font-medium py-2 px-4 rounded-full transition duration-300">
+                        Guardar
+                    </button>
+                    <a th:href="@{/admin/libros/libros}"
+                        class="bg-red-600 hover:bg-red-800 text-white font-medium py-2 px-4 rounded-full transition duration-300">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>

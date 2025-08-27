@@ -1,0 +1,23 @@
+<!-- fragments/header -->
+<div th:replace="fragments/header :: header"></div>
+
+<main class="max-w-4xl mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">💰 Mis Multas</h1>
+
+    <div th:if="${#lists.isEmpty(multas)}" class="text-gray-600 mb-4 text-center">
+        No hay multas registradas.
+    </div>
+
+    <ul th:each="multa : ${multas}" class="mb-4 border p-4 rounded shadow-sm">
+        <li>
+            <strong>Monto:</strong> ₡<span th:text="${multa.monto}">0.0</span> <br>
+            <strong>Fecha de vencimiento:</strong> <span th:text="${multa.fechaVencimiento}">2025-01-15</span> <br>
+            <strong>Estado:</strong>
+            <span th:text="${multa.pagada ? 'Pagada' : 'Pendiente'}"
+                th:classappend="${multa.pagada ? 'text-green-600' : 'text-red-600'}">Pendiente</span>
+        </li>
+    </ul>
+</main>
+
+<!-- fragments/footer -->
+<div th:replace="fragments/footer :: footer"></div>

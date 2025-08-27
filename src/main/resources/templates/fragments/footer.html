@@ -1,0 +1,26 @@
+<!-- fragments/footer.html -->
+<div th:fragment="footer">
+    <footer class="bg-gradient-to-r from-indigo-700 via-sky-700 to-emerald-800 text-white mt-10">
+        <div class="max-w-6xl mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+                <!-- Nombre o logo -->
+                <div class="text-lg font-semibold">Biblioteca Central</div>
+
+                <!-- Enlaces opcionales -->
+                <div class="flex space-x-6 text-sm">
+                    <a href="/" class="hover:underline">Inicio</a>
+                    <a href="/nosotros" class="hover:underline">Sobre Nosotros</a>
+                    <a href="/contacto" class="hover:underline">Contacto</a>
+                </div>
+            </div>
+
+            <!-- Línea divisoria -->
+            <div class="border-t border-white/30 my-4"></div>
+
+            <!-- Derechos -->
+            <div class="text-center text-xs text-white/90">
+                © 2025 Biblioteca Central. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+</div>

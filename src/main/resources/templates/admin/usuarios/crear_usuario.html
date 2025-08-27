@@ -1,0 +1,61 @@
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Barra de navegación del dashboard -->
+<nav class="bg-gray-100 border-b border-gray-300 mb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex space-x-4">
+                <a href="/admin/dashboard" class="text-gray-700 hover:text-blue-600 font-medium">Dashboard</a>
+                <a href="/admin/usuarios/usuarios" class="text-gray-700 hover:text-blue-600 font-medium">👥 Usuarios</a>
+                <a href="/admin/libros/libros" class="text-gray-700 hover:text-blue-600 font-medium">📚 Libros</a>
+                <a href="/admin/categorias/categorias" class="text-gray-700 hover:text-blue-600 font-medium">🏷️ Categorías</a>
+                <a href="/admin/autores/autores" class="text-gray-700 hover:text-blue-600 font-medium">✍️ Autores</a>
+                <a href="/admin/ejemplares/ejemplares" class="text-gray-700 hover:text-blue-600 font-medium">📖 Ejemplares</a>    
+                <a href="/admin/prestamos/prestamos" class="text-gray-700 hover:text-blue-600 font-medium">📄 Préstamos</a>            
+            </div>
+            <div>
+                <a href="/" class="text-gray-500 hover:text-red-500 font-medium">← Volver al sitio</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-4xl mx-auto px-6 py-10">
+    <h2 class="text-3xl font-bold text-white mb-6">➕ Crear Nuevo Usuario</h2>
+
+<form th:action="@{/admin/usuarios/usuarios/guardar}" th:object="${usuario}" method="post"
+        class="bg-white shadow-md rounded-lg p-6 space-y-4 text-gray-800">
+
+        <div>
+            <label class="block font-semibold mb-1">Username</label>
+            <input type="text" th:field="*{username}" class="w-full border rounded p-2" required>
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-1">Email</label>
+            <input type="email" th:field="*{email}" class="w-full border rounded p-2" required>
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-1">Contraseña</label>
+            <input type="password" th:field="*{passwordHash}" class="w-full border rounded p-2" required>
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-1">Rol</label>
+            <select th:field="*{rol}" class="w-full border rounded p-2" required>
+                <option value="">Seleccione...</option>
+                <option value="ADMIN">ADMIN</option>
+                <option value="USER">USER</option>
+            </select>
+        </div>
+
+        <div class="flex justify-end space-x-4">
+            <a th:href="@{/admin/usuarios/usuarios}" class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded-full transition duration-300">Cancelar</a>
+            <button type="submit"
+                class="bg-emerald-600 hover:bg-emerald-800 text-white py-2 px-4 rounded-full transition duration-300">Guardar</button>
+        </div>
+    </form>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>

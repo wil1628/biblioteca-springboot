@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil de Usuario</title>
+    <link href="/css/tailwind.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 text-gray-800 min-h-screen">
+
+    <!-- Header -->
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="max-w-5xl mx-auto mt-12 p-10 bg-white rounded-2xl shadow-xl border border-gray-200">
+
+        <!-- Título -->
+        <h1 class="text-4xl font-extrabold text-blue-900 mb-8 flex items-center gap-3">
+            👤 Perfil de Usuario
+        </h1>
+
+        <!-- Datos de usuario -->
+        <p class="mb-6 text-lg">
+            <strong class="text-gray-700">Nombre de usuario:</strong>
+            <span class="text-blue-700 font-semibold" th:text="${usuario.username}"></span>
+        </p>
+
+        <!-- Panel ADMIN -->
+        <div sec:authorize="hasRole('ADMIN')"
+            class="mt-6 p-5 bg-yellow-50 border-l-6 border-yellow-500 rounded-lg shadow-sm">
+            <p class="font-semibold text-yellow-800 mb-2">🔐 Tienes privilegios de administrador.</p>
+            <a href="/admin/dashboard" class="text-blue-700 hover:underline font-medium">Ir al panel de
+                administración</a>
+        </div>
+
+        <!-- Panel USER -->
+        <div sec:authorize="hasRole('USER')"
+            class="mt-6 p-5 bg-green-50 border-l-6 border-green-600 rounded-lg shadow-sm">
+            <p class="font-semibold text-green-800 mb-2">👋 Bienvenido <span th:text="${usuario.username}"></span></p>
+            <a href="/catalogo" class="text-blue-700 hover:underline font-medium">Explorar catálogo</a>
+        </div>
+
+        <!-- Historial -->
+        <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6 flex items-center gap-3">
+            📚 Historial de Préstamos
+        </h2>
+
+        <!-- Tabla responsiva -->
+        <div class="overflow-x-auto rounded-xl shadow-lg border border-gray-200">
+            <table class="w-full text-sm text-left border-collapse">
+                <!-- Encabezado -->
+                <thead class="bg-gradient-to-r from-slate-600 via-stone-600 to-blue-900 text-white">
+                    <tr>
+                        <th class="px-6 py-4 uppercase tracking-wide">Título</th>
+                        <th class="px-6 py-4 uppercase tracking-wide">Fecha Préstamo</th>
+                        <th class="px-6 py-4 uppercase tracking-wide">Vencimiento</th>
+                        <th class="px-6 py-4 uppercase tracking-wide">Devolución</th>
+                        <th class="px-6 py-4 uppercase tracking-wide">Multa</th>
+                        <th class="px-6 py-4 uppercase tracking-wide w-48">Acciones</th>
+                    </tr>
+                </thead>
+
+                <!-- Filas -->
+                <tbody th:each="prestamo : ${prestamos}" class="divide-y divide-gray-200 bg-white">
+                    <tr class="hover:bg-gray-50 transition duration-150">
+                        <td class="px-6 py-4 font-medium text-gray-800" th:text="${prestamo.ejemplar.libro.titulo}">
+                            Título</td>
+                        <td class="px-6 py-4 text-gray-600" th:text="${prestamo.fechaPrestamo}">2025-08-17</td>
+                        <td class="px-6 py-4 text-gray-600" th:text="${prestamo.fechaVencimiento}">2025-08-31</td>
+                        <td class="px-6 py-4 text-gray-600"
+                            th:text="${prestamo.fechaDevolucion != null ? prestamo.fechaDevolucion : 'Pendiente'}">
+                            Pendiente</td>
+                        <td class="px-6 py-4 font-semibold text-red-600"
+                            th:text="${prestamo.multaGenerada != null ? '₡' + prestamo.multaGenerada : '₡0.00'}">₡0.00
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col gap-2">
+                                <!-- Botón devolver -->
+                                <div th:if="${prestamo.fechaDevolucion == null}">
+                                    <form th:action="@{'/usuario/perfil/devolver/' + ${prestamo.id}}" method="post">
+                                        <button type="submit"
+                                            class="bg-blue-700 hover:bg-blue-900 text-white px-4 py-1 rounded-full text-sm font-medium transition duration-200">
+                                            Devolver
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- Estado devuelto -->
+                                <div th:if="${prestamo.fechaDevolucion != null}">
+                                    <span class="text-green-600 font-medium">✔️ Devuelto</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
